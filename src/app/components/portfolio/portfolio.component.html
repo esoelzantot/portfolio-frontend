@@ -1,0 +1,106 @@
+<section class="portfolio section" id="portfolio">
+  <div class="container flex-center">
+    <h1 class="section-title-01" [class.dark]="isDarkTheme()">Portfolio</h1>
+    <h2 class="section-title-02" [class.dark]="isDarkTheme()">Portfolio</h2>
+    <div class="content">
+      <div class="portfolio-description">
+        <h3 [class.dark]="isDarkTheme()">Most recent work</h3>
+      </div>
+      <ul class="portfolio-list">
+        <li
+          class="portfolio-container"
+          *ngFor="let item of paginatedItems; let i = index"
+        >
+          <!-- ===== Portfolio Card ===== -->
+          <div class="portfolio-card" [class.dark]="isDarkTheme()">
+            <div class="portfolio-card-img">
+              <img [src]="imageURL + item.imgSrc" alt="portfolio image" />
+            </div>
+            <div class="portfolio-card-body">
+              <div class="portfolio-card-body-title">
+                <h3 [class.dark]="isDarkTheme()">{{ item.title }}</h3>
+                <div class="portfolio-card-body-icon">
+                  <a
+                    [href]="item.githubURL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="uil uil-github"></i>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="portfolio-learn-more-btn"
+                (click)="openModal(i + (currentPage - 1) * itemsPerPage)"
+              >
+                Details <i class="uil uil-arrow-circle-right"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ===== Portfolio Modal ===== -->
+          <div
+            class="portfolio-modal flex-center"
+            [class.active]="isModalOpen"
+            [class.dark]="isDarkTheme()"
+            *ngIf="isModalOpen[i + (currentPage - 1) * itemsPerPage]"
+          >
+            <div class="portfolio-modal-body" [class.dark]="isDarkTheme()">
+              <i
+                class="uil uil-multiply portfolio-modal-close-btn"
+                [class.dark]="isDarkTheme()"
+                (click)="closeModal(i + (currentPage - 1) * itemsPerPage)"
+              ></i>
+              <div class="portfolio-modal-content">
+                <h3 [class.dark]="isDarkTheme()">{{ item.modalTitle }}</h3>
+                <div class="portfolio-modal-img">
+                  <img [src]="imageURL + item.imgSrc" alt="portfolio image" />
+                </div>
+                <div class="portfolio-modal-description">
+                  <h4 [class.dark]="isDarkTheme()">Description</h4>
+                  <p [class.dark]="isDarkTheme()">{{ item.description }}</p>
+                </div>
+                <div class="portfolio-modal-info">
+                  <h4 [class.dark]="isDarkTheme()">Project Features</h4>
+                  <ul>
+                    <li
+                      *ngFor="let feature of item.features"
+                      [class.dark]="isDarkTheme()"
+                    >
+                      <i class="uil uil-check-circle"></i> {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-controls">
+        <button
+          type="button"
+          (click)="prevPage()"
+          [disabled]="currentPage === 1"
+        >
+          <i class="uil uil-angle-left-b"></i>
+        </button>
+        <button
+          type="button"
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          (click)="goToPage(i + 1)"
+          [class.active]="currentPage === i + 1"
+        >
+          {{ i + 1 }}
+        </button>
+        <button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          <i class="uil uil-angle-right-b"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

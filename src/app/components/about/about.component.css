@@ -1,0 +1,248 @@
+/*=======About section=======*/
+
+.about {
+  position: relative;
+  max-width: 80%;
+  min-height: 100vh;
+  margin: auto;
+  background-color: #fefefe;
+}
+
+.about-content {
+  column-gap: 40px;
+  width: 100%;
+}
+
+.about-img {
+  position: relative;
+}
+
+.about-img img {
+  max-width: 100%;
+  min-width: 400px;
+  height: 450px;
+  border-radius: 20px;
+}
+
+.about-info .description {
+  max-width: 600px;
+}
+
+.about_mainTitle {
+  font-size: 2em;
+  font-weight: 600;
+  color: #191627;
+  margin-bottom: 10px;
+}
+
+.about-info .description h4 {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #614fd0;
+  margin-bottom: 10px;
+}
+
+.about-info .description h4 span {
+  color: #614fd0;
+}
+
+.about-info .description p {
+  color: #777;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  padding-bottom: 25px;
+  border-bottom: 2px solid #d7d7d7;
+}
+
+.about-info .professional-list {
+  display: flex;
+  column-gap: 30px;
+}
+
+.about-info .professional-list .list-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 15px;
+  margin-bottom: 20px;
+}
+
+.about-info .professional-list .list-item h3 {
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.about-info .professional-list .list-item span {
+  color: #777;
+  font-size: 1em;
+}
+
+/*=======Qualification section=======*/
+
+.qualification {
+  position: relative;
+  max-width: 80%;
+}
+
+.qualification_content {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.qualification_container {
+  width: 600px;
+  margin: auto;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.qualification_tabs {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+
+.qualification-description h3 {
+  font-size: 1.5em;
+  color: #191627;
+  margin-bottom: 40px;
+}
+
+.qualification_button {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #191627;
+  cursor: pointer;
+}
+
+.qualification_button:hover,
+.qualification_button:hover i {
+  color: #6e57e0;
+}
+
+.qualification_icon {
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.qualification_data {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  column-gap: 1.5rem;
+}
+
+.qualification_title {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.qualification_subtitle {
+  display: inline-block;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.qualification_calendar {
+  font-size: 0.9rem;
+  color: #a19fad;
+}
+
+.qualification_rounder {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background-color: #6e57e0;
+  border-radius: 50%;
+}
+
+.qualification_line {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background-color: #6e57e0;
+  transform: translate(6px, -7px);
+}
+
+.qualification_content[data-content] {
+  display: none;
+}
+
+.qualification_active[data-content] {
+  display: block;
+}
+
+.qualification_button.qualification_active,
+.qualification_button.qualification_active i {
+  color: #6e57e0;
+}
+
+/* ===== Dark Theme ===== */
+.about.dark {
+  background-color: #191627;
+}
+
+.about_mainTitle.dark,
+.section-title-02.dark,
+.list-item h3.dark,
+.qualification_button.dark,
+.qualification-description h3.dark {
+  color: #fff;
+}
+
+.section-title-01.dark {
+  color: #fff;
+  opacity: 0.01;
+}
+
+/*=======Media query max-width 768px=======*/
+@media screen and (max-width: 768px) {
+  body {
+    margin: 1rem 0 0 0;
+  }
+
+  .section-title-01 {
+    font-size: 3rem;
+  }
+
+  .section-title-02 {
+    font-size: 2rem;
+    transform: translateY(-65px);
+  }
+
+  .qualification_container {
+    width: 100%;
+  }
+
+  /* ===== about section ===== */
+
+  .about {
+    max-width: 95%;
+  }
+
+  .about .container .about-content {
+    display: grid;
+    width: 100%;
+    row-gap: 20px;
+  }
+
+  .about-img img {
+    width: 100%;
+    min-width: 0;
+    height: 250px;
+  }
+
+  .about-info {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .about-info .professional-list {
+    flex-direction: column;
+  }
+
+  .about-info .professional-list .list-item {
+    justify-content: start;
+  }
+}

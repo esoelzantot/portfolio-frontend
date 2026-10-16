@@ -1,0 +1,59 @@
+<section class="services section" id="services">
+  <div class="container flex-center">
+    <h1 class="section-title-01" [class.dark]="isDarkTheme()">Services</h1>
+    <h2 class="section-title-02" [class.dark]="isDarkTheme()">Services</h2>
+    <div class="content">
+      <div class="services-description">
+        <h3 [class.dark]="isDarkTheme()">What I Provide</h3>
+      </div>
+      <ul class="services-list">
+        <li
+          class="service-container"
+          *ngFor="let service of services; let i = index"
+        >
+          <!-- ===== Service Card ===== -->
+          <div
+            class="service-card"
+            id="service-card"
+            [class.dark]="isDarkTheme()"
+          >
+            <i class="uil uil-brackets-curly"></i>
+            <h3 [class.dark]="isDarkTheme()">{{ service.title }}</h3>
+            <div class="learn-more-btn" (click)="openModal(i)">
+              Learn More <i class="uil uil-arrow-circle-right"></i>
+            </div>
+          </div>
+          <!-- ===== Service Modal ===== -->
+          <div
+            class="service-modal flex-center"
+            [class.dark]="isDarkTheme()"
+            [class.active]="activeModalIndex === i"
+          >
+            <div class="service-modal-body" [class.dark]="isDarkTheme()">
+              <i
+                class="uil uil-multiply modal-close-btn"
+                [class.dark]="isDarkTheme()"
+                (click)="closeModal()"
+              ></i>
+              <h3 [class.dark]="isDarkTheme()">{{ service.modalTitle }}</h3>
+              <h4 [class.dark]="isDarkTheme()">
+                What is {{ service.modalTitle }} ?
+              </h4>
+              <p [class.dark]="isDarkTheme()">{{ service.modalDescription }}</p>
+              <h4 [class.dark]="isDarkTheme()">What I provide</h4>
+              <ul>
+                <li
+                  *ngFor="let item of service.provisions"
+                  [class.dark]="isDarkTheme()"
+                >
+                  <i class="uil uil-check-circle"></i>
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

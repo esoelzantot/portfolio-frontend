@@ -1,0 +1,118 @@
+* {
+  font-family: "Ubuntu", sans-serif;
+}
+
+/*=======Footer=======*/
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #6e57e0;
+  width: 100%;
+  padding: 1.5rem 3rem;
+  color: #fff;
+}
+
+footer.dark {
+  background-color: #100e1b !important;
+}
+
+footer a {
+  color: #fff;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-container .about h2 {
+  font-size: 3em;
+  font-weight: 600;
+  background: linear-gradient(to top, transparent 0%, #fff 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.8;
+}
+
+.footer-container .about p {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.footer-container .follow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-container .follow h3 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.footer-container .follow ul {
+  display: flex;
+}
+
+.follow {
+  width: 20%;
+}
+
+.social-icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer-container .follow a {
+  font-size: 2em;
+}
+
+.footer-container .follow a:is(:hover) {
+  color: #6e57e0;
+}
+
+.footer-copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  footer {
+    padding: 1.5rem 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  footer .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-container .about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .follow {
+    width: 50%;
+    margin: auto;
+  }
+
+  .hr {
+    width: 100%;
+    height: 2px;
+    margin: 10px 0px 22px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

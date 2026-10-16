@@ -1,0 +1,32 @@
+<section class="home flex-center revea" id="home" [class.dark]="isDarkTheme()">
+  <div>
+    <div class="home-container">
+      <div class="media-icons">
+        <a [href]="home?.facebook" target="_blank" [class.dark]="isDarkTheme()"
+          ><i class="uil uil-facebook"></i
+        ></a>
+        <a [href]="home?.linkedin" target="_blank" [class.dark]="isDarkTheme()"
+          ><i class="uil uil-linkedin"></i
+        ></a>
+        <a [href]="home?.github" target="_blank" [class.dark]="isDarkTheme()"
+          ><i class="uil uil-github"></i
+        ></a>
+      </div>
+
+      <div class="home-img">
+        <img [src]="imageURL + home?.imageSrc" alt="home image" />
+      </div>
+
+      <div class="home-info">
+        <h1 [class.dark]="isDarkTheme()">
+          Hi, I am <span>{{ home?.name }}</span>
+        </h1>
+        <h3>{{ home?.title }}</h3>
+        <p>{{ home?.description }}</p>
+        <a [routerLink]="['/contact']" routerLinkActive="active" class="btn">
+          Contact Me <i class="uil uil-arrow-circle-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

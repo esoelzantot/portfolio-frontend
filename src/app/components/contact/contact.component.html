@@ -1,0 +1,80 @@
+<section class="contact section" id="contact">
+  <div class="container flex-center">
+    <h1 class="section-title-01" [class.dark]="isDarkTheme()">Contact Me</h1>
+    <h2 class="section-title-02" [class.dark]="isDarkTheme()">Contact Me</h2>
+    <div class="content">
+      <div class="contact-left">
+        <h2 [class.dark]="isDarkTheme()">Let's discuss your project</h2>
+        <ul class="contact-list">
+          <li>
+            <h3 class="item-title" [class.dark]="isDarkTheme()">
+              <i class="uil uil-phone"></i>Phone
+            </h3>
+            <span>{{ contact.phone }}</span>
+          </li>
+          <li>
+            <h3 class="item-title" [class.dark]="isDarkTheme()">
+              <i class="uil uil-envelope"></i>Email Address
+            </h3>
+            <span>
+              <a href="mailto:islamzantot@gmail.com">
+                {{ contact.email }}
+              </a>
+            </span>
+          </li>
+          <li>
+            <h3 class="item-title" [class.dark]="isDarkTheme()">
+              <i class="uil uil-map-marker-alt"></i>Official Address
+            </h3>
+            <span>{{ contact.location }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="contact-right">
+        <p>
+          I'm always open to discussing product <br />
+          <span [class.dark]="isDarkTheme()">design work or partnerships.</span>
+        </p>
+        <form
+          [formGroup]="contactForm"
+          (ngSubmit)="onSubmit()"
+          class="contact-form"
+        >
+          <div class="first-row">
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="Name"
+              [class.dark]="isDarkTheme()"
+            />
+          </div>
+          <div class="second-row">
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Email"
+              [class.dark]="isDarkTheme()"
+            />
+            <input
+              type="text"
+              formControlName="subject"
+              placeholder="Subject"
+              [class.dark]="isDarkTheme()"
+            />
+          </div>
+          <div class="first-row">
+            <textarea
+              formControlName="message"
+              rows="7"
+              placeholder="Message"
+              [class.dark]="isDarkTheme()"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn">
+            Send Message <i class="uil uil-message"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

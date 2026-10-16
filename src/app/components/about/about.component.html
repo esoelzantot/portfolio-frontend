@@ -1,0 +1,125 @@
+<!-- About -->
+<section class="about section" id="about" [class.dark]="isDarkTheme()">
+  <div class="container flex-center">
+    <h1 class="section-title-01" [class.dark]="isDarkTheme()">About Me</h1>
+    <h2 class="section-title-02" [class.dark]="isDarkTheme()">About Me</h2>
+    <div class="about-content flex-center">
+      <div class="about-img">
+        <img [src]="imageURL + about.imageSrc" alt="about image" />
+      </div>
+      <div class="about-info">
+        <div class="description">
+          <h3 class="about_mainTitle" [class.dark]="isDarkTheme()">
+            I'm <span>{{ about.name }}</span>
+          </h3>
+          <h4 class="about_subTitle">{{ about.title }}</h4>
+          <p>{{ about.description }}</p>
+        </div>
+        <ul class="professional-list">
+          <li class="list-item">
+            <h3 [class.dark]="isDarkTheme()">{{ about.experienceYears }}+</h3>
+            <span>
+              Years of
+              <br />
+              Experience
+            </span>
+          </li>
+          <li class="list-item">
+            <h3 [class.dark]="isDarkTheme()">{{ about.successProjects }}+</h3>
+            <span>
+              Success <br />
+              Projects
+            </span>
+          </li>
+        </ul>
+        <a
+          class="btn"
+          [href]="about.cvURL"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download CV <i class="uil uil-download-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Qualification -->
+<section class="qualifications section" id="qualifications">
+  <div class="container flex-center">
+    <h1 class="section-title-01" [class.dark]="isDarkTheme()">Qualification</h1>
+    <h2 class="section-title-02" [class.dark]="isDarkTheme()">Qualification</h2>
+    <div class="qualification_content">
+      <div class="qualification-description">
+        <h3 [class.dark]="isDarkTheme()">My personal journey</h3>
+      </div>
+      <div class="qualification_container">
+        <div class="qualification_tabs">
+          <div
+            class="qualification_button button_flex"
+            [class.dark]="isDarkTheme()"
+            [ngClass]="{ qualification_active: activeTab === 'education' }"
+            (click)="selectTab('education')"
+          >
+            <i class="uil uil-graduation-cap qualification_icon"></i>
+            Education
+          </div>
+          <div
+            class="qualification_button button_flex"
+            [class.dark]="isDarkTheme()"
+            [ngClass]="{ qualification_active: activeTab === 'work' }"
+            (click)="selectTab('work')"
+          >
+            <i class="uil uil-briefcase qualification_icon"></i>
+            Work
+          </div>
+        </div>
+
+        <div class="qualification_sections">
+          <!-- Education Section -->
+          <div
+            class="qualification_content"
+            *ngIf="activeTab === 'education'"
+            id="education"
+          >
+            @for (item of educations; track $index) { @if($index % 2 == 0){
+            <app-qualification-left
+              [mainTitle]="item.mainTitle"
+              [subTitle]="item.subTitle"
+              [calendar]="item.calendar"
+            />
+            }@else {
+            <app-qualification-right
+              [mainTitle]="item.mainTitle"
+              [subTitle]="item.subTitle"
+              [calendar]="item.calendar"
+            />
+            } }
+          </div>
+
+          <!-- Work Section -->
+          <div
+            class="qualification_content"
+            *ngIf="activeTab === 'work'"
+            id="work"
+          >
+            @for (item of works; track $index) { @if($index % 2 == 0){
+            <app-qualification-left
+              [mainTitle]="item.mainTitle"
+              [subTitle]="item.subTitle"
+              [calendar]="item.calendar"
+            />
+            }@else {
+            <app-qualification-right
+              [mainTitle]="item.mainTitle"
+              [subTitle]="item.subTitle"
+              [calendar]="item.calendar"
+            />
+            } }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+.qualification_data {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  column-gap: 1.5rem;
+}
+
+.qualification_title {
+  font-size: 1.4rem;
+  color: #191627;
+  font-weight: 500;
+}
+
+.qualification_subtitle {
+  display: inline-block;
+  font-size: 1rem;
+  color: #191627;
+  margin-bottom: 1rem;
+}
+
+.qualification_calendar {
+  font-size: 1rem;
+  color: #a19fad;
+}
+
+.qualification_rounder {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background-color: #6e57e0;
+  border-radius: 50%;
+}
+
+.qualification_line {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background-color: #6e57e0;
+  transform: translate(6px, -7px);
+}
+
+/* ===== Dark Theme ===== */
+
+.qualification_title.dark,
+.qualification_subtitle.dark {
+  color: #fff;
+}

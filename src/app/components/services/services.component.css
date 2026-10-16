@@ -1,0 +1,199 @@
+/*=======Services section=======*/
+.services {
+  position: relative;
+  max-width: 80%;
+  min-height: 100vh;
+  margin: auto;
+}
+
+.services .container .content {
+  width: 100%;
+}
+
+.services-description h3 {
+  font-size: 2em;
+  color: #191627;
+  margin-bottom: 50px;
+}
+
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 3px, rgba(0, 0, 0, 0.3) 0px 0px 3px;
+  border-bottom: 4px solid #614fe0;
+  border-radius: 10px;
+  padding: 2rem;
+  transition: 0.3s ease;
+}
+
+.service-card:is(:hover) {
+  transform: scale(1.04);
+}
+
+.service-card > i {
+  font-size: 3em;
+  color: #614fe0;
+  margin-bottom: 30px;
+}
+
+.service-card h3 {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #191627;
+  margin-bottom: 20px;
+  line-height: 30px;
+}
+
+.service-card .learn-more-btn {
+  color: #777;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.service-card .learn-more-btn i {
+  font-size: 1.2em;
+  transition: 0.3s ease;
+}
+
+.service-card:is(:hover) .learn-more-btn i {
+  transform: translateX(20px);
+}
+
+.service-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  /* backdrop-filter: blur(5px); */
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.service-modal.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.service-modal-body {
+  position: relative;
+  background: #fff;
+  max-width: 600px;
+  padding: 40px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 3px, rgba(0, 0, 0, 0.3) 0px 0px 3px;
+  transform: translateY(-50px);
+  transition: 0.5s ease;
+}
+
+.service-modal.active .service-modal-body {
+  transform: translateY(0);
+}
+
+.service-modal-body .modal-close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 20px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #191627;
+}
+
+.service-modal-body h3 {
+  font-size: 2em;
+  color: #191627;
+}
+
+.service-modal-body h4 {
+  font-size: 1.4em;
+  color: #191627;
+  font-weight: 600;
+  margin: 15px 0 10px;
+}
+
+.service-modal-body p {
+  font-size: 1em;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.service-modal-body ul li {
+  margin-top: 15px;
+  font-size: 1em;
+}
+
+.service-modal-body ul li i {
+  color: #614fe0;
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+/* ===== Dark Theme ===== */
+
+.service-card.dark {
+  background-color: #211d35;
+  box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 3px,
+    rgba(255, 255, 255, 0.3) 0px 0px 3px;
+}
+
+.service-modal.dark {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.service-modal-body.dark {
+  background-color: #211d35;
+  box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 3px,
+    rgba(255, 255, 255, 0.3) 0px 0px 3px;
+}
+
+.section-title-02.dark,
+.services-description h3.dark,
+.service-card h3.dark,
+.service-modal-body h3.dark,
+.service-modal-body .modal-close-btn.dark {
+  color: #fff;
+}
+
+.service-modal-body h4.dark {
+  color: #fff;
+}
+
+.service-modal-body p.dark,
+.service-modal-body ul li.dark {
+  color: lightgray;
+}
+
+.section-title-01.dark {
+  color: #fff;
+  opacity: 0.01;
+}
+
+/*=======Media query max-width 768px=======*/
+@media screen and (max-width: 768px) {
+  body {
+    margin: 1rem 0 0 0;
+  }
+
+  .section-title-01 {
+    font-size: 3rem;
+  }
+
+  .section-title-02 {
+    font-size: 2rem;
+    transform: translateY(-65px);
+  }
+}

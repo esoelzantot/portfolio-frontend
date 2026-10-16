@@ -1,0 +1,143 @@
+/*=======Skills section=======*/
+
+.skills {
+  position: relative;
+  max-width: 80%;
+  min-height: 100vh;
+  margin: auto;
+}
+
+.skills .container .content {
+  width: 100%;
+}
+
+.skills-description {
+  max-width: 700px;
+  margin-bottom: 50px;
+}
+
+.skills-description h3 {
+  font-size: 2em;
+  color: #191627;
+  margin-bottom: 40px;
+}
+
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.skills_header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: #191627;
+  border-radius: 6px;
+  padding: 5px 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px, rgba(0, 0, 0, 0.2) 0px 0px 3px;
+}
+
+.skills_icon,
+.skills_arrow {
+  font-size: 2rem;
+  color: #6e57e0;
+}
+
+.skills_icon {
+  margin-right: 0.75rem;
+}
+
+.skills_title {
+  font-size: 1.2rem;
+}
+
+.skills_subtitle {
+  font-size: 0.85rem;
+  color: #70768a;
+}
+
+.skills_arrow {
+  margin-left: auto;
+  transition: 0.4s;
+}
+
+.skills_list {
+  row-gap: 1.5rem;
+  padding: 0px 2rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.skills_data {
+  margin-bottom: 1rem;
+}
+
+.skills_titles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.skills_name {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.skills_img {
+  width: 30px;
+  height: 30px;
+}
+
+.skills_close .skills_list {
+  height: 0;
+  overflow: hidden;
+}
+
+.skills_open .skills_list {
+  height: max-content;
+  margin-bottom: 1rem;
+}
+
+.skills_open .skills_arrow {
+  transform: rotate(-180deg);
+}
+
+/* ===== Dark Theme ===== */
+
+.section-title-02.dark,
+.skills_title.dark,
+.skills_subTitle.dark,
+.skills_name.dark,
+.skills-description h3.dark {
+  color: #fff;
+}
+
+.section-title-01.dark {
+  color: #fff;
+  opacity: 0.01;
+}
+
+.skills_header.dark {
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 3px,
+    rgba(255, 255, 255, 0.2) 0px 0px 3px;
+}
+
+/*=======Media query max-width 768px=======*/
+@media screen and (max-width: 768px) {
+  body {
+    margin: 1rem 0 0 0;
+  }
+
+  .section-title-01 {
+    font-size: 3rem;
+  }
+
+  .section-title-02 {
+    font-size: 2rem;
+    transform: translateY(-65px);
+  }
+}
