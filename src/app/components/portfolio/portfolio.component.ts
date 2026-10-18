@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnInit,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { IProject, ProjectService } from '../../services/project.service';
 
@@ -11,6 +18,7 @@ import ScrollReveal from 'scrollreveal';
 })
 export class PortfolioComponent implements OnInit, AfterViewInit {
   readonly isDarkTheme = inject(ThemeService).isDark;
+  private readonly injector = inject(Injector);
   imageURL = ''; // images are full Cloudinary URLs now
 
   constructor(
@@ -21,6 +29,7 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
     // Api Call
     this.projectService.getAllProjects().subscribe((projects) => {
       this.projects = projects;
+      this.revealCardsAfterRender();
     });
   }
 
@@ -46,6 +55,12 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
     return this.projects.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
+  /** "01", "02", ... numbered across pages, not per page. */
+  indexLabel(indexOnPage: number): string {
+    const position = (this.currentPage - 1) * this.itemsPerPage + indexOnPage + 1;
+    return position.toString().padStart(2, '0');
+  }
+
   openModal(project: IProject): void {
     this.selectedProject = project;
     this.isModalOpen = true;
@@ -58,19 +73,34 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;
+      this.revealCardsAfterRender();
     }
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
+    this.goToPage(this.currentPage + 1);
   }
 
   prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
+    this.goToPage(this.currentPage - 1);
+  }
+
+  // The cards only exist once data (or a new page) has rendered. Revealed on
+  // the <li>, not the card: ScrollReveal writes an inline transform that would
+  // otherwise override the card's hover lift.
+  private revealCardsAfterRender(): void {
+    afterNextRender(
+      () =>
+        ScrollReveal().reveal('.portfolio-container', {
+          distance: '60px',
+          duration: 2000,
+          delay: 600,
+          origin: 'bottom',
+          interval: 100,
+          reset: true,
+        }),
+      { injector: this.injector }
+    );
   }
 
   // Scroll Animation
@@ -88,20 +118,10 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
       delay: 300,
       origin: 'left',
     });
-    sr.reveal('.about-info .btn', {
-      delay: 400,
-      origin: 'right',
-    });
 
     sr.reveal('.portfolio-description', {
       delay: 500,
       origin: 'left',
-    });
-
-    sr.reveal('.portfolio-card', {
-      delay: 600,
-      origin: 'bottom',
-      interval: 100,
     });
   }
 }

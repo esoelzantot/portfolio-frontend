@@ -7,64 +7,92 @@
         <h3 [class.dark]="isDarkTheme()">Most recent work</h3>
       </div>
       <ul class="portfolio-list">
-        <li class="portfolio-container" *ngFor="let item of paginatedItems">
-          <!-- ===== Portfolio Card ===== -->
-          <div class="portfolio-card" [class.dark]="isDarkTheme()">
-            <div class="portfolio-card-img">
-              <img [src]="imageURL + item.imgSrc" alt="portfolio image" />
-            </div>
-            <div class="portfolio-card-body">
-              <div class="portfolio-card-body-title">
-                <h3 [class.dark]="isDarkTheme()">{{ item.title }}</h3>
-                <div class="portfolio-card-body-icon">
+        @for (item of paginatedItems; track item.title; let i = $index) {
+          <li class="portfolio-container">
+            <!-- ===== Portfolio Card ===== -->
+            <article class="project-card" [class.dark]="isDarkTheme()">
+              <div class="project-card-media">
+                <img
+                  [src]="imageURL + item.imgSrc"
+                  [alt]="item.title"
+                  loading="lazy"
+                />
+                <span class="project-card-index" aria-hidden="true">
+                  {{ indexLabel(i) }}
+                </span>
+                @if (item.githubURL) {
                   <a
+                    class="project-card-github"
                     [href]="item.githubURL"
                     target="_blank"
                     rel="noopener noreferrer"
+                    [attr.aria-label]="'View ' + item.title + ' on GitHub'"
                   >
-                    <i class="uil uil-github"></i>
+                    <i class="uil uil-github" aria-hidden="true"></i>
                   </a>
+                }
+              </div>
+
+              <div class="project-card-body">
+                <h3 class="project-card-title">{{ item.title }}</h3>
+                <p class="project-card-text">{{ item.description }}</p>
+
+                <div class="project-card-footer">
+                  <span class="project-card-meta">
+                    <i class="uil uil-layer-group" aria-hidden="true"></i>
+                    {{ item.features.length }} features
+                  </span>
+                  <!-- its ::after covers the card, so the whole card is clickable -->
+                  <button
+                    type="button"
+                    class="project-card-btn"
+                    aria-haspopup="dialog"
+                    [attr.aria-label]="'View details of ' + item.title"
+                    (click)="openModal(item)"
+                  >
+                    View details
+                    <span class="project-card-arrow" aria-hidden="true">
+                      <i class="uil uil-arrow-right"></i>
+                    </span>
+                  </button>
                 </div>
               </div>
-              <button
-                type="button"
-                class="portfolio-learn-more-btn"
-                aria-haspopup="dialog"
-                (click)="openModal(item)"
-              >
-                Details
-                <i class="uil uil-arrow-circle-right" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-        </li>
+            </article>
+          </li>
+        }
       </ul>
 
       <!-- Pagination Controls -->
-      <div class="pagination-controls">
-        <button
-          type="button"
-          (click)="prevPage()"
-          [disabled]="currentPage === 1"
-        >
-          <i class="uil uil-angle-left-b"></i>
-        </button>
-        <button
-          type="button"
-          *ngFor="let page of [].constructor(totalPages); let i = index"
-          (click)="goToPage(i + 1)"
-          [class.active]="currentPage === i + 1"
-        >
-          {{ i + 1 }}
-        </button>
-        <button
-          type="button"
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages"
-        >
-          <i class="uil uil-angle-right-b"></i>
-        </button>
-      </div>
+      @if (totalPages > 1) {
+        <div class="pagination-controls">
+          <button
+            type="button"
+            aria-label="Previous page"
+            (click)="prevPage()"
+            [disabled]="currentPage === 1"
+          >
+            <i class="uil uil-angle-left-b" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            (click)="goToPage(i + 1)"
+            [class.active]="currentPage === i + 1"
+            [attr.aria-current]="currentPage === i + 1 ? 'page' : null"
+            [attr.aria-label]="'Page ' + (i + 1)"
+          >
+            {{ i + 1 }}
+          </button>
+          <button
+            type="button"
+            aria-label="Next page"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+          >
+            <i class="uil uil-angle-right-b" aria-hidden="true"></i>
+          </button>
+        </div>
+      }
     </div>
   </div>
 </section>
