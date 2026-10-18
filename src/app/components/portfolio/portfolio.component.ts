@@ -32,24 +32,27 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
 
   itemsPerPage: number = 4; // Number of items to display per page
   currentPage: number = 1; // Current active page
-  isModalOpen: boolean[] = Array(this.projects.length).fill(false); // Adjust the size of this array based on the number of portfolio items
+
+  isModalOpen = false;
+  // kept after closing so the content stays visible during the fade-out
+  selectedProject: IProject | null = null;
 
   get totalPages(): number {
     return Math.ceil(this.projects.length / this.itemsPerPage);
   }
 
-  get paginatedItems(): any[] {
+  get paginatedItems(): IProject[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.projects.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  openModal(index: number): void {
-    console.log('clicked');
-    this.isModalOpen[index] = true;
+  openModal(project: IProject): void {
+    this.selectedProject = project;
+    this.isModalOpen = true;
   }
 
-  closeModal(index: number): void {
-    this.isModalOpen[index] = false;
+  closeModal(): void {
+    this.isModalOpen = false;
   }
 
   goToPage(pageNumber: number): void {

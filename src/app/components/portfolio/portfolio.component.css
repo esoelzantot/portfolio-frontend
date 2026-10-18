@@ -81,11 +81,23 @@
 }
 
 .portfolio-card .portfolio-learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0 0 0.5rem;
+  border: 0;
+  background: none;
+  font: inherit;
   color: #777;
   cursor: pointer;
   margin-top: 1rem;
   transition: 0.3s ease;
-  padding-left: 0.5rem;
+}
+
+.portfolio-card .portfolio-learn-more-btn:focus-visible {
+  outline: 2px solid #614fe0;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .portfolio-card .portfolio-learn-more-btn i {
@@ -96,89 +108,57 @@
   transform: translateX(10px);
 }
 
-.portfolio-modal {
-  position: fixed;
-  left: 0;
-  top: 0;
+/*=======Project details (inside app-modal)=======*/
+.project-details h3 {
+  font-size: 2em;
+  line-height: 1.25;
+  color: #191627;
+  margin-bottom: 1.25rem;
+  /* keep the title clear of the close button */
+  padding-right: 48px;
+}
+
+.project-details-img img {
+  display: block;
   width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 2000;
-  visibility: hidden;
-  opacity: 0;
-  transition: 0.3s ease;
-}
-
-.portfolio-modal-content-data > div {
-  width: 45%;
-}
-
-.portfolio-modal.active {
-  visibility: visible;
-  opacity: 1;
-}
-
-.portfolio-modal-body {
-  position: relative;
-  background: #fff;
-  max-width: 700px;
-  max-height: 80vh;
-  padding: 30px;
-  margin: 20px;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 3px, rgba(0, 0, 0, 0.3) 0px 0px 3px;
-  transform: translateY(-50px);
-  transition: 0.5s ease;
-  overflow: scroll;
-}
-
-.portfolio-modal-img {
-  width: 75%;
-  margin: auto;
-}
-
-.portfolio-modal-img img {
-  width: 100%;
-  border-radius: 10px;
+  max-height: 340px;
+  border-radius: 12px;
   object-fit: cover;
 }
 
-.portfolio-modal.active .portfolio-modal-body {
-  transform: translateY(0);
-}
-
-.portfolio-modal-body .portfolio-modal-close-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 20px;
-  cursor: pointer;
-  font-size: 1.5em;
-  color: #191627;
-}
-
-.portfolio-modal-body h3 {
-  font-size: 2em;
-  color: #191627;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-
-.portfolio-modal-body h4 {
+.project-details h4 {
   font-size: 1.4em;
+  line-height: 1.3;
   font-weight: 600;
   color: #191627;
-  margin: 15px 0 10px;
+  margin: 24px 0 10px;
 }
 
-.portfolio-modal-body ul li {
+.project-details p {
+  line-height: 1.7;
+  color: #777;
+}
+
+.project-details ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   margin-top: 15px;
+  line-height: 1.6;
 }
 
-.portfolio-modal-body ul li i {
+.project-details ul li i {
+  flex-shrink: 0;
   color: #614fe0;
   font-size: 1.2rem;
-  margin-right: 10px;
+  line-height: 1.35;
+}
+
+.project-details .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
 }
 
 /* ===== Dark Theme ===== */
@@ -189,30 +169,19 @@
     rgba(255, 255, 255, 0.3) 0px 0px 3px;
 }
 
-.portfolio-modal.dark {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.portfolio-modal-body.dark {
-  background-color: #211d35;
-  box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 3px,
-    rgba(255, 255, 255, 0.3) 0px 0px 3px;
-}
-
 .section-title-02.dark,
 .portfolio-description h3.dark,
 .portfolio-card-body-title h3.dark,
-.portfolio-modal-content h3.dark,
-.portfolio-modal-body .portfolio-modal-close-btn.dark {
+.project-details h3.dark {
   color: #fff;
 }
 
-.portfolio-modal-body h4.dark {
+.project-details h4.dark {
   color: #fff;
 }
 
-.portfolio-modal-body p.dark,
-.portfolio-modal-body ul li.dark {
+.project-details p.dark,
+.project-details ul li.dark {
   color: lightgray;
 }
 
@@ -260,10 +229,6 @@
 
 /*=======Media query max-width 768px=======*/
 @media screen and (max-width: 768px) {
-  body {
-    margin: 1rem 0 0 0;
-  }
-
   .section-title-01 {
     font-size: 3rem;
   }
@@ -271,5 +236,20 @@
   .section-title-02 {
     font-size: 2rem;
     transform: translateY(-65px);
+  }
+}
+
+/*=======Media query max-width 576px=======*/
+@media screen and (max-width: 576px) {
+  .project-details h3 {
+    font-size: 1.5em;
+  }
+
+  .project-details h4 {
+    font-size: 1.15em;
+  }
+
+  .project-details-img img {
+    max-height: 220px;
   }
 }

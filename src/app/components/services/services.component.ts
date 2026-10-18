@@ -12,7 +12,7 @@ import ScrollReveal from 'scrollreveal';
 export class ServicesComponent implements OnInit, AfterViewInit {
   readonly isDarkTheme = inject(ThemeService).isDark;
 
-  constructor(
+  constructor(
     private servicesService: ServiceService
   ) {}
 
@@ -29,14 +29,17 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
   services: IService[] = [];
 
-  activeModalIndex: number | null = null;
+  isModalOpen = false;
+  // kept after closing so the content stays visible during the fade-out
+  selectedService: IService | null = null;
 
-  openModal(index: number): void {
-    this.activeModalIndex = index;
+  openModal(service: IService): void {
+    this.selectedService = service;
+    this.isModalOpen = true;
   }
 
   closeModal(): void {
-    this.activeModalIndex = null;
+    this.isModalOpen = false;
   }
 
   private scrollAnimation(): void {

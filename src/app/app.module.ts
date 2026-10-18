@@ -19,6 +19,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { HandleErrorInterceptor } from './interceptors/handle-error-interceptor';
+import { ModalComponent } from './shared/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { HandleErrorInterceptor } from './interceptors/handle-error-interceptor'
     QualificationLeftComponent,
     QualificationRightComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, ModalComponent],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     {

@@ -7,10 +7,7 @@
         <h3 [class.dark]="isDarkTheme()">Most recent work</h3>
       </div>
       <ul class="portfolio-list">
-        <li
-          class="portfolio-container"
-          *ngFor="let item of paginatedItems; let i = index"
-        >
+        <li class="portfolio-container" *ngFor="let item of paginatedItems">
           <!-- ===== Portfolio Card ===== -->
           <div class="portfolio-card" [class.dark]="isDarkTheme()">
             <div class="portfolio-card-img">
@@ -29,48 +26,15 @@
                   </a>
                 </div>
               </div>
-              <div
+              <button
+                type="button"
                 class="portfolio-learn-more-btn"
-                (click)="openModal(i + (currentPage - 1) * itemsPerPage)"
+                aria-haspopup="dialog"
+                (click)="openModal(item)"
               >
-                Details <i class="uil uil-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-          <!-- ===== Portfolio Modal ===== -->
-          <div
-            class="portfolio-modal flex-center"
-            [class.active]="isModalOpen"
-            [class.dark]="isDarkTheme()"
-            *ngIf="isModalOpen[i + (currentPage - 1) * itemsPerPage]"
-          >
-            <div class="portfolio-modal-body" [class.dark]="isDarkTheme()">
-              <i
-                class="uil uil-multiply portfolio-modal-close-btn"
-                [class.dark]="isDarkTheme()"
-                (click)="closeModal(i + (currentPage - 1) * itemsPerPage)"
-              ></i>
-              <div class="portfolio-modal-content">
-                <h3 [class.dark]="isDarkTheme()">{{ item.modalTitle }}</h3>
-                <div class="portfolio-modal-img">
-                  <img [src]="imageURL + item.imgSrc" alt="portfolio image" />
-                </div>
-                <div class="portfolio-modal-description">
-                  <h4 [class.dark]="isDarkTheme()">Description</h4>
-                  <p [class.dark]="isDarkTheme()">{{ item.description }}</p>
-                </div>
-                <div class="portfolio-modal-info">
-                  <h4 [class.dark]="isDarkTheme()">Project Features</h4>
-                  <ul>
-                    <li
-                      *ngFor="let feature of item.features"
-                      [class.dark]="isDarkTheme()"
-                    >
-                      <i class="uil uil-check-circle"></i> {{ feature }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                Details
+                <i class="uil uil-arrow-circle-right" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
         </li>
@@ -104,3 +68,43 @@
     </div>
   </div>
 </section>
+
+<!-- ===== Portfolio Modal (one instance, shows the selected project) ===== -->
+<app-modal
+  [open]="isModalOpen"
+  [dark]="isDarkTheme()"
+  labelledBy="portfolio-modal-title"
+  (closed)="closeModal()"
+>
+  @if (selectedProject; as project) {
+    <div class="project-details">
+      <h3 id="portfolio-modal-title" [class.dark]="isDarkTheme()">
+        {{ project.modalTitle }}
+      </h3>
+      <div class="project-details-img">
+        <img [src]="imageURL + project.imgSrc" [alt]="project.title" />
+      </div>
+      <h4 [class.dark]="isDarkTheme()">Description</h4>
+      <p [class.dark]="isDarkTheme()">{{ project.description }}</p>
+      <h4 [class.dark]="isDarkTheme()">Project Features</h4>
+      <ul>
+        @for (feature of project.features; track $index) {
+          <li [class.dark]="isDarkTheme()">
+            <i class="uil uil-check-circle" aria-hidden="true"></i>
+            <span>{{ feature }}</span>
+          </li>
+        }
+      </ul>
+      @if (project.githubURL) {
+        <a
+          class="btn"
+          [href]="project.githubURL"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on GitHub <i class="uil uil-github" aria-hidden="true"></i>
+        </a>
+      }
+    </div>
+  }
+</app-modal>

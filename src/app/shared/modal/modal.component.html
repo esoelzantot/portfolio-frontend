@@ -1,0 +1,32 @@
+<div
+  class="modal-overlay"
+  [class.active]="open"
+  [class.dark]="dark"
+  (click)="requestClose()"
+>
+  <div
+    #dialog
+    class="modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="labelledBy"
+    [attr.aria-hidden]="!open"
+    (click)="$event.stopPropagation()"
+    (keydown)="trapFocus($event)"
+  >
+    <button
+      #closeBtn
+      type="button"
+      class="modal-close-btn"
+      aria-label="Close"
+      [tabIndex]="open ? 0 : -1"
+      (click)="requestClose()"
+    >
+      <i class="uil uil-multiply" aria-hidden="true"></i>
+    </button>
+
+    <div #content class="modal-content" tabindex="-1">
+      <ng-content />
+    </div>
+  </div>
+</div>
