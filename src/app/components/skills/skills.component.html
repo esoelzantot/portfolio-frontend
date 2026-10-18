@@ -6,45 +6,55 @@
       <div class="skills-description">
         <h3 [class.dark]="isDarkTheme()">My technical level</h3>
       </div>
-      <div class="skills-container">
-        <div
-          class="skills_content"
-          [ngClass]="{
-            skills_open: activeIndex === i,
-            skills_close: activeIndex !== i
-          }"
-          *ngFor="let skill of skills; let i = index"
-        >
-          <div
-            class="skills_header"
-            [class.dark]="isDarkTheme()"
-            (click)="toggleSkills(i)"
-          >
-            <i class="uil uil-brackets-curly skills_icon"></i>
+      <ul class="skills-list">
+        @for (skill of skills; track skill.category) {
+          <li class="skill-card-container">
+            <!-- ===== Skill Card ===== -->
+            <article class="skill-card" [class.dark]="isDarkTheme()">
+              <header class="skill-card-header">
+                <div class="skill-card-icon" aria-hidden="true">
+                  <i [class]="'uil ' + iconFor(skill)"></i>
+                </div>
+                <div class="skill-card-heading">
+                  <h3 class="skill-card-title">{{ skill.category }}</h3>
+                  <span class="skill-card-experience">
+                    <i class="uil uil-clock" aria-hidden="true"></i>
+                    {{ experienceLabel(skill) }} experience
+                  </span>
+                </div>
+              </header>
 
-            <div>
-              <h1 class="skills_title" [class.dark]="isDarkTheme()">
-                {{ skill.category }}
-              </h1>
-              <span class="skills_subtitle">
-                More than {{ skill.experience }} years</span
-              >
-            </div>
+              <ul class="skill-items">
+                @for (item of skill.skillsList; track item.name) {
+                  <li class="skill-item">
+                    <span class="skill-item-logo" aria-hidden="true">
+                      @if (!failedImages.has(item.image)) {
+                        <img
+                          [src]="imageURL + item.image"
+                          alt=""
+                          loading="lazy"
+                          (error)="failedImages.add(item.image)"
+                        />
+                      } @else {
+                        {{ initials(item.name) }}
+                      }
+                    </span>
+                    <span class="skill-item-name">{{ item.name }}</span>
+                  </li>
+                }
+              </ul>
 
-            <i class="uil uil-angle-down skills_arrow"></i>
-          </div>
-          <div class="skills_list grid">
-            <div class="skills_data" *ngFor="let item of skill.skillsList">
-              <div class="skills_titles">
-                <img [src]="imageURL + item.image" class="skills_img" alt="" />
-                <h3 class="skills_name" [class.dark]="isDarkTheme()">
-                  {{ item.name }}
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <footer class="skill-card-footer">
+                <span>
+                  <i class="uil uil-layer-group" aria-hidden="true"></i>
+                  {{ skill.skillsList.length }}
+                  {{ skill.skillsList.length === 1 ? 'skill' : 'skills' }}
+                </span>
+              </footer>
+            </article>
+          </li>
+        }
+      </ul>
     </div>
   </div>
 </section>
