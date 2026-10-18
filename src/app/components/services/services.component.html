@@ -7,22 +7,43 @@
         <h3 [class.dark]="isDarkTheme()">What I Provide</h3>
       </div>
       <ul class="services-list">
-        <li class="service-container" *ngFor="let service of services">
-          <!-- ===== Service Card ===== -->
-          <div class="service-card" [class.dark]="isDarkTheme()">
-            <i class="uil uil-brackets-curly" aria-hidden="true"></i>
-            <h3 [class.dark]="isDarkTheme()">{{ service.title }}</h3>
-            <button
-              type="button"
-              class="learn-more-btn"
-              aria-haspopup="dialog"
-              (click)="openModal(service)"
-            >
-              Learn More
-              <i class="uil uil-arrow-circle-right" aria-hidden="true"></i>
-            </button>
-          </div>
-        </li>
+        @for (service of services; track service.title; let i = $index) {
+          <li class="service-container">
+            <!-- ===== Service Card ===== -->
+            <article class="service-card" [class.dark]="isDarkTheme()">
+              <span class="service-card-index" aria-hidden="true">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+
+              <div class="service-card-icon" aria-hidden="true">
+                <i [class]="'uil ' + iconFor(service)"></i>
+              </div>
+
+              <h3 class="service-card-title">{{ service.title }}</h3>
+              <p class="service-card-text">{{ service.modalDescription }}</p>
+
+              <div class="service-card-footer">
+                <span class="service-card-meta">
+                  <i class="uil uil-check-circle" aria-hidden="true"></i>
+                  {{ service.provisions.length }} deliverables
+                </span>
+                <!-- its ::after covers the card, so the whole card is clickable -->
+                <button
+                  type="button"
+                  class="learn-more-btn"
+                  aria-haspopup="dialog"
+                  [attr.aria-label]="'Learn more about ' + service.title"
+                  (click)="openModal(service)"
+                >
+                  Learn more
+                  <span class="learn-more-arrow" aria-hidden="true">
+                    <i class="uil uil-arrow-right"></i>
+                  </span>
+                </button>
+              </div>
+            </article>
+          </li>
+        }
       </ul>
     </div>
   </div>

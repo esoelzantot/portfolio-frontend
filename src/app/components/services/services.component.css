@@ -18,67 +18,227 @@
 
 .services-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
-  max-width: 100%;
-  margin: 0 auto;
+  /* equal-width columns, and grid-auto-rows: 1fr makes every row as tall as
+     the tallest card, so all cards match even when they wrap to new rows */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-auto-rows: 1fr;
+  gap: 24px;
 }
 
+.service-container {
+  display: flex;
+}
+
+/*=======Service card=======*/
 .service-card {
-  background: #fff;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 3px, rgba(0, 0, 0, 0.3) 0px 0px 3px;
-  border-bottom: 4px solid #614fe0;
-  border-radius: 10px;
-  padding: 2rem;
-  transition: 0.3s ease;
+  --card-bg: #fff;
+  --card-border: rgba(97, 79, 224, 0.14);
+  --card-title: #191627;
+  --card-text: #6b6880;
+  --card-shadow: 0 12px 32px -16px rgba(25, 22, 39, 0.25);
+  --card-shadow-hover: 0 28px 50px -20px rgba(97, 79, 224, 0.45);
+  --card-index: rgba(97, 79, 224, 0.22);
+
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 30px 28px 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.service-card:is(:hover) {
-  transform: scale(1.04);
+.service-card.dark {
+  --card-bg: #211d35;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-title: #fff;
+  --card-text: #a9a5c0;
+  --card-shadow: 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 28px 50px -20px rgba(97, 79, 224, 0.55);
+  --card-index: rgba(255, 255, 255, 0.12);
 }
 
-.service-card > i {
-  font-size: 3em;
-  color: #614fe0;
-  margin-bottom: 30px;
+/* soft glow in the corner that brightens on hover */
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    circle at 100% 0%,
+    rgba(97, 79, 224, 0.16),
+    transparent 55%
+  );
+  opacity: 0.7;
+  transition: opacity 0.35s ease;
 }
 
-.service-card h3 {
-  font-size: 1.5em;
+/* accent bar that grows across the bottom on hover */
+.service-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #614fe0, #a78bfa);
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: transform 0.45s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(97, 79, 224, 0.45);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+.service-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* keyboard focus on the button highlights the whole card */
+.service-card:has(.learn-more-btn:focus-visible) {
+  outline: 2px solid #614fe0;
+  outline-offset: 4px;
+}
+
+.service-card-index {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--card-index);
+  transition: -webkit-text-stroke-color 0.35s ease, transform 0.35s ease;
+}
+
+.service-card:hover .service-card-index {
+  -webkit-text-stroke-color: rgba(97, 79, 224, 0.6);
+  transform: translateY(-2px);
+}
+
+.service-card-icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 6px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #614fe0, #8b7cf6);
+  color: #fff;
+  font-size: 1.9rem;
+  box-shadow: 0 12px 22px -8px rgba(97, 79, 224, 0.7);
+  transition: transform 0.35s ease;
+}
+
+.service-card:hover .service-card-icon {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.service-card-title {
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #191627;
-  margin-bottom: 20px;
-  line-height: 30px;
+  line-height: 1.35;
+  color: var(--card-title);
+}
+
+/* same number of lines on every card, the full text is in the modal */
+.service-card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--card-text);
+}
+
+/* margin-top: auto pins the footer to the bottom of equal-height cards */
+.service-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px dashed var(--card-border);
+}
+
+.service-card-meta {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--card-text);
+}
+
+.service-card-meta i {
+  color: #614fe0;
+  font-size: 1rem;
 }
 
 .service-card .learn-more-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 0;
   border: 0;
   background: none;
   font: inherit;
-  color: #777;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #614fe0;
+  white-space: nowrap;
   cursor: pointer;
-  font-size: 1em;
-  font-weight: 500;
-  transition: 0.3s ease;
 }
 
 .service-card .learn-more-btn:focus-visible {
-  outline: 2px solid #614fe0;
-  outline-offset: 4px;
-  border-radius: 4px;
+  outline: none;
 }
 
-.service-card .learn-more-btn i {
-  font-size: 1.2em;
-  transition: 0.3s ease;
+/* stretched link: the button's hit area covers the whole card */
+.service-card .learn-more-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-.service-card:is(:hover) .learn-more-btn i {
-  transform: translateX(20px);
+.service-card.dark .learn-more-btn {
+  color: #a99bff;
+}
+
+.learn-more-arrow {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(97, 79, 224, 0.12);
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover .learn-more-arrow {
+  background: #614fe0;
+  color: #fff;
+  transform: translateX(4px);
 }
 
 /*=======Service details (inside app-modal)=======*/
@@ -123,15 +283,8 @@
 
 /* ===== Dark Theme ===== */
 
-.service-card.dark {
-  background-color: #211d35;
-  box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 3px,
-    rgba(255, 255, 255, 0.3) 0px 0px 3px;
-}
-
 .section-title-02.dark,
 .services-description h3.dark,
-.service-card h3.dark,
 .service-details h3.dark {
   color: #fff;
 }
@@ -164,11 +317,34 @@
 
 /*=======Media query max-width 576px=======*/
 @media screen and (max-width: 576px) {
+  .services {
+    max-width: 100%;
+  }
+
+  .service-card {
+    padding: 26px 22px 22px;
+  }
+
   .service-details h3 {
     font-size: 1.5em;
   }
 
   .service-details h4 {
     font-size: 1.15em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .service-card::before,
+  .service-card::after,
+  .service-card-index,
+  .service-card-icon,
+  .learn-more-arrow {
+    transition: none;
+  }
+
+  .service-card:hover {
+    transform: none;
   }
 }
