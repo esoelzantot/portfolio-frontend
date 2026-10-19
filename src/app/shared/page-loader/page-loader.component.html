@@ -1,0 +1,32 @@
+<div
+  class="page-loader"
+  [class.hidden]="!visible"
+  [class.dark]="dark"
+  role="status"
+  aria-live="polite"
+  [attr.aria-hidden]="!visible"
+>
+  <span class="loader-glow loader-glow-1" aria-hidden="true"></span>
+  <span class="loader-glow loader-glow-2" aria-hidden="true"></span>
+
+  <span class="loader-bar" aria-hidden="true"><span></span></span>
+
+  <div class="loader-content">
+    <div class="loader-mark" aria-hidden="true">
+      <span class="loader-orbit loader-orbit-outer">
+        <span class="loader-dot"></span>
+      </span>
+      <span class="loader-orbit loader-orbit-inner">
+        <span class="loader-dot"></span>
+      </span>
+      <span class="loader-logo">E</span>
+    </div>
+
+    <p class="loader-name" aria-hidden="true">Eslam</p>
+    <p class="loader-text">
+      Loading<span class="loader-dots" aria-hidden="true"
+        ><span>.</span><span>.</span><span>.</span></span
+      >
+    </p>
+  </div>
+</div>

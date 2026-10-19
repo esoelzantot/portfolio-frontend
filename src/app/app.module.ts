@@ -20,6 +20,8 @@ import {
 } from '@angular/common/http';
 import { HandleErrorInterceptor } from './interceptors/handle-error-interceptor';
 import { ModalComponent } from './shared/modal/modal.component';
+import { PageLoaderComponent } from './shared/page-loader/page-loader.component';
+import { LoadingInterceptor } from './interceptors/loading-interceptor';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,21 @@ import { ModalComponent } from './shared/modal/modal.component';
     QualificationLeftComponent,
     QualificationRightComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, ModalComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    ModalComponent,
+    PageLoaderComponent,
+  ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    // first, so the loader also covers time spent in later interceptors
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HandleErrorInterceptor,

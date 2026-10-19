@@ -9,8 +9,70 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap">
+
+  <!-- apply the saved theme before the first paint, so dark mode never flashes white -->
+  <script>
+    try {
+      if (localStorage.getItem('selected-theme') === 'dark') {
+        document.documentElement.classList.add('boot-dark');
+      }
+    } catch (e) {}
+  </script>
+
+  <!-- Pre-boot loader: shown until Angular starts, then <app-page-loader>
+       (same look, src/app/shared/page-loader) takes over seamlessly. -->
+  <style>
+    .boot-loader {
+      position: fixed; inset: 0; z-index: 5000;
+      display: grid; place-items: center;
+      background: #fefefe; color: #191627;
+      font-family: "Poppins", sans-serif;
+    }
+    .boot-dark .boot-loader { background: #191627; color: #fff; }
+    .boot-loader-content { display: flex; flex-direction: column; align-items: center; }
+    .boot-mark { position: relative; display: grid; place-items: center; width: 168px; height: 168px; }
+    .boot-orbit {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 1.5px dashed rgba(97, 79, 224, 0.28);
+      animation: boot-spin 7s linear infinite;
+    }
+    .boot-orbit::before {
+      content: ""; position: absolute; top: -6px; left: 50%; margin-left: -6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: linear-gradient(135deg, #614fe0, #a78bfa);
+      box-shadow: 0 0 14px rgba(97, 79, 224, 0.8);
+    }
+    .boot-logo {
+      display: grid; place-items: center; width: 74px; height: 74px;
+      border-radius: 22px; background: linear-gradient(135deg, #614fe0, #8b7cf6);
+      color: #fff; font-size: 2.4rem; font-weight: 800; line-height: 1;
+      box-shadow: 0 12px 28px -10px rgba(97, 79, 224, 0.7);
+    }
+    .boot-name { margin: 26px 0 0; font-size: 1.7rem; font-weight: 700; letter-spacing: 1px; }
+    .boot-text {
+      margin: 6px 0 0; font-size: 0.9rem; font-weight: 500; letter-spacing: 2px;
+      text-transform: uppercase; opacity: 0.6;
+    }
+    @keyframes boot-spin { to { transform: rotate(360deg); } }
+    @media (max-width: 576px) {
+      .boot-mark { width: 140px; height: 140px; }
+      .boot-logo { width: 64px; height: 64px; border-radius: 19px; font-size: 2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .boot-orbit { animation: none; } }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div class="boot-loader" role="status" aria-live="polite">
+      <div class="boot-loader-content">
+        <div class="boot-mark" aria-hidden="true">
+          <span class="boot-orbit"></span>
+          <span class="boot-logo">E</span>
+        </div>
+        <p class="boot-name" aria-hidden="true">Eslam</p>
+        <p class="boot-text">Loading...</p>
+      </div>
+    </div>
+  </app-root>
 </body>
 </html>
