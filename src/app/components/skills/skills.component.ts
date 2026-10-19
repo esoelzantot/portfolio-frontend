@@ -7,7 +7,11 @@ import {
   inject,
 } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
-import { ISkill, SkillService } from '../../services/skill.service';
+import {
+  ISkill,
+  ISkillItem,
+  SkillService,
+} from '../../services/skill.service';
 
 import ScrollReveal from 'scrollreveal';
 
@@ -55,6 +59,24 @@ export class SkillsComponent implements OnInit, AfterViewInit {
 
   /** Images that failed to load; their tiles show initials instead. */
   readonly failedImages = new Set<string>();
+
+  /** Logos shown stacked on a closed card before the "+N" badge. */
+  readonly previewCount = 4;
+
+  // one card open at a time; keyed by category since cards have no id
+  private openCategory: string | null = null;
+
+  isOpen(skill: ISkill): boolean {
+    return this.openCategory === skill.category;
+  }
+
+  toggle(skill: ISkill): void {
+    this.openCategory = this.isOpen(skill) ? null : skill.category;
+  }
+
+  previewItems(skill: ISkill): ISkillItem[] {
+    return skill.skillsList.slice(0, this.previewCount);
+  }
 
   iconFor(skill: ISkill): string {
     return (

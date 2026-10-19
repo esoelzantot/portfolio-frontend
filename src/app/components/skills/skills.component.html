@@ -7,50 +7,97 @@
         <h3 [class.dark]="isDarkTheme()">My technical level</h3>
       </div>
       <ul class="skills-list">
-        @for (skill of skills; track skill.category) {
+        @for (skill of skills; track skill.category; let i = $index) {
           <li class="skill-card-container">
             <!-- ===== Skill Card ===== -->
-            <article class="skill-card" [class.dark]="isDarkTheme()">
-              <header class="skill-card-header">
-                <div class="skill-card-icon" aria-hidden="true">
-                  <i [class]="'uil ' + iconFor(skill)"></i>
-                </div>
-                <div class="skill-card-heading">
-                  <h3 class="skill-card-title">{{ skill.category }}</h3>
-                  <span class="skill-card-experience">
-                    <i class="uil uil-clock" aria-hidden="true"></i>
-                    {{ experienceLabel(skill) }} experience
+            <article
+              class="skill-card"
+              [class.dark]="isDarkTheme()"
+              [class.open]="isOpen(skill)"
+            >
+              <!-- the whole closed card is one button that toggles the list -->
+              <h3 class="skill-card-heading">
+                <button
+                  type="button"
+                  class="skill-card-toggle"
+                  [attr.aria-expanded]="isOpen(skill)"
+                  [attr.aria-controls]="'skill-panel-' + i"
+                  (click)="toggle(skill)"
+                >
+                  <span class="skill-card-header">
+                    <span class="skill-card-icon" aria-hidden="true">
+                      <i [class]="'uil ' + iconFor(skill)"></i>
+                    </span>
+                    <span class="skill-card-titles">
+                      <span class="skill-card-title">{{ skill.category }}</span>
+                      <span class="skill-card-experience">
+                        <i class="uil uil-clock" aria-hidden="true"></i>
+                        {{ experienceLabel(skill) }} experience
+                      </span>
+                    </span>
                   </span>
-                </div>
-              </header>
 
-              <ul class="skill-items">
-                @for (item of skill.skillsList; track item.name) {
-                  <li class="skill-item">
-                    <span class="skill-item-logo" aria-hidden="true">
-                      @if (!failedImages.has(item.image)) {
-                        <img
-                          [src]="imageURL + item.image"
-                          alt=""
-                          loading="lazy"
-                          (error)="failedImages.add(item.image)"
-                        />
-                      } @else {
-                        {{ initials(item.name) }}
+                  <span class="skill-card-preview">
+                    <span class="skill-card-avatars" aria-hidden="true">
+                      @for (item of previewItems(skill); track item.name) {
+                        <span class="skill-avatar">
+                          @if (!failedImages.has(item.image)) {
+                            <img
+                              [src]="imageURL + item.image"
+                              alt=""
+                              loading="lazy"
+                              (error)="failedImages.add(item.image)"
+                            />
+                          } @else {
+                            {{ initials(item.name) }}
+                          }
+                        </span>
+                      }
+                      @if (skill.skillsList.length > previewCount) {
+                        <span class="skill-avatar skill-avatar-more">
+                          +{{ skill.skillsList.length - previewCount }}
+                        </span>
                       }
                     </span>
-                    <span class="skill-item-name">{{ item.name }}</span>
-                  </li>
-                }
-              </ul>
+                    <span class="skill-card-count">
+                      {{ skill.skillsList.length }}
+                      {{ skill.skillsList.length === 1 ? 'skill' : 'skills' }}
+                    </span>
+                    <span class="skill-card-chevron" aria-hidden="true">
+                      <i class="uil uil-angle-down"></i>
+                    </span>
+                  </span>
+                </button>
+              </h3>
 
-              <footer class="skill-card-footer">
-                <span>
-                  <i class="uil uil-layer-group" aria-hidden="true"></i>
-                  {{ skill.skillsList.length }}
-                  {{ skill.skillsList.length === 1 ? 'skill' : 'skills' }}
-                </span>
-              </footer>
+              <!-- grid-template-rows 0fr -> 1fr animates to the content's real height -->
+              <div
+                class="skill-card-panel"
+                [id]="'skill-panel-' + i"
+                [attr.inert]="isOpen(skill) ? null : ''"
+              >
+                <div class="skill-card-panel-inner">
+                  <ul class="skill-items">
+                    @for (item of skill.skillsList; track item.name) {
+                      <li class="skill-item">
+                        <span class="skill-item-logo" aria-hidden="true">
+                          @if (!failedImages.has(item.image)) {
+                            <img
+                              [src]="imageURL + item.image"
+                              alt=""
+                              loading="lazy"
+                              (error)="failedImages.add(item.image)"
+                            />
+                          } @else {
+                            {{ initials(item.name) }}
+                          }
+                        </span>
+                        <span class="skill-item-name">{{ item.name }}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
             </article>
           </li>
         }
