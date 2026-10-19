@@ -8,9 +8,21 @@
   ></div>
 
   <nav class="nav nav_container">
-    <a [routerLink]="['/home']" class="nav_logo" [class.dark]="isDarkTheme()"
-      >Eslam</a
+    <a
+      [routerLink]="['/home']"
+      class="nav_logo"
+      [class.dark]="isDarkTheme()"
+      aria-label="Eslam Shaker, home"
     >
+      <!-- white logo on dark, recolored dark logo on light -->
+      <img
+        class="nav_logo_img"
+        [src]="isDarkTheme() ? 'images/logo/logo-dark.png' : 'images/logo/logo-light.png'"
+        alt=""
+        width="159"
+        height="96"
+      />
+    </a>
 
     <div
       class="nav_menu"
