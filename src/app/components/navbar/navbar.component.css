@@ -25,6 +25,34 @@
   color: #6e57e0;
 }
 
+/* the icon controls are real buttons; strip the default button look */
+.change-theme,
+.nav_toggle,
+.nav_close {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.change-theme:focus-visible,
+.nav_toggle:focus-visible,
+.nav_close:focus-visible,
+.nav_link:focus-visible,
+.nav_logo:focus-visible {
+  outline: 2px solid #6e57e0;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* only used on mobile, see the max-width: 767px block */
+.nav_scrim {
+  display: none;
+}
+
 /*==================== NAV ====================*/
 
 .nav {
@@ -131,10 +159,13 @@
 }
 
 @media screen and (max-width: 767px) {
+  /* full width inside the header's own padding; the old 90% width plus
+     side margins made the bar ~400px wide on a 375px phone, which widened
+     the whole page and let it slide sideways */
   .nav_container {
-    max-width: 100%;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    width: 100%;
+    max-width: none;
+    margin: 0;
   }
 
   .grid {
@@ -147,9 +178,24 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
     z-index: 1000;
     background-color: #fefefe;
+  }
+
+  .nav_scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 20, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .nav_scrim.show {
+    opacity: 1;
+    visibility: visible;
   }
 
   .nav_menu {
@@ -158,10 +204,12 @@
     left: 0;
     width: 100%;
     background-color: #fefefe;
-    padding: 2rem 1.5rem 4rem;
+    padding: 3.25rem 1.5rem 2.5rem;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 8px, rgba(0, 0, 0, 0.3) 0px 0px 8px;
     border-radius: 1.5rem 1.5rem 0 0;
-    transition: 0.3s;
+    /* hidden menus stay out of the tab order */
+    visibility: hidden;
+    transition: bottom 0.3s ease, visibility 0.3s ease;
   }
 
   .nav_menu.dark {
@@ -198,11 +246,16 @@
     font-size: 1.2rem;
   }
 
+  /* top corner of the sheet, where it can't hide behind the browser's bar */
   .nav_close {
     position: absolute;
-    right: 1.3rem;
-    bottom: 0;
-    font-size: 2rem;
+    top: 0.9rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(110, 87, 224, 0.12);
+    font-size: 1.6rem;
     cursor: pointer;
     color: #191627;
   }
@@ -214,6 +267,7 @@
   /* show menu */
   .show-menu {
     bottom: 0;
+    visibility: visible;
   }
 
   /* Active link */
@@ -251,5 +305,18 @@
 
   .hide-btns {
     display: none;
+  }
+
+  /* 44px touch targets (the icons alone were ~22px) without changing the look */
+  .change-theme,
+  .nav_toggle {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+  }
+
+  .nav_btns {
+    gap: 2px;
+    margin-right: -10px;
   }
 }

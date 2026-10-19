@@ -1,4 +1,12 @@
 <header class="header" id="header" [class.dark]="isDarkTheme()">
+  <!-- mobile only: dims the page behind the open menu; tapping it closes the menu -->
+  <div
+    class="nav_scrim"
+    [class.show]="isMenuVisible"
+    (click)="toggleMenu(false)"
+    aria-hidden="true"
+  ></div>
+
   <nav class="nav nav_container">
     <a [routerLink]="['/home']" class="nav_logo" [class.dark]="isDarkTheme()"
       >Eslam</a
@@ -11,93 +19,60 @@
       [class.dark]="isDarkTheme()"
     >
       <ul class="nav_list grid">
-        <li class="nav_item">
-          <a
-            [routerLink]="['/home']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-estate nav_icon"></i> Home
-          </a>
-        </li>
-        <li class="nav_item">
-          <a
-            [routerLink]="['/about']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-user nav_icon"></i> About
-          </a>
-        </li>
-        <li class="nav_item">
-          <a
-            [routerLink]="['/skills']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-file-alt nav_icon"></i> Skills
-          </a>
-        </li>
-        <li class="nav_item">
-          <a
-            [routerLink]="['/services']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-briefcase-alt nav_icon"></i> Services
-          </a>
-        </li>
-        <li class="nav_item">
-          <a
-            [routerLink]="['/portfolio']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-scenery nav_icon"></i> Portfolio
-          </a>
-        </li>
-        <li class="nav_item">
-          <a
-            [routerLink]="['/contact']"
-            routerLinkActive="active"
-            class="nav_link"
-            [class.dark]="isDarkTheme()"
-          >
-            <i class="uil uil-message nav_icon"></i> Contact
-          </a>
-        </li>
+        @for (item of navItems; track item.path) {
+          <li class="nav_item">
+            <a
+              [routerLink]="[item.path]"
+              routerLinkActive="active"
+              class="nav_link"
+              [class.dark]="isDarkTheme()"
+              (click)="toggleMenu(false)"
+            >
+              <i [class]="item.icon + ' nav_icon'" aria-hidden="true"></i>
+              {{ item.label }}
+            </a>
+          </li>
+        }
       </ul>
-      <i
-        class="uil uil-times nav_close"
+      <button
+        type="button"
+        class="nav_close"
         [class.dark]="isDarkTheme()"
-        id="nav_close"
+        aria-label="Close menu"
         (click)="toggleMenu(false)"
-      ></i>
+      >
+        <i class="uil uil-times" aria-hidden="true"></i>
+      </button>
     </div>
 
     <div class="nav_btns" [ngClass]="{ 'hide-btns': isMenuVisible }">
       <!-- theme change button -->
-      <div class="change-theme" [class.dark]="isDarkTheme()">
+      <button
+        type="button"
+        class="change-theme"
+        [class.dark]="isDarkTheme()"
+        [attr.aria-label]="isDarkTheme() ? 'Switch to light theme' : 'Switch to dark theme'"
+        (click)="toggleTheme()"
+        id="theme-button"
+      >
         <i
           class="uil"
           [ngClass]="isDarkTheme() ? 'uil-sun' : 'uil-moon'"
-          (click)="toggleTheme()"
-          id="theme-button"
+          aria-hidden="true"
         ></i>
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         class="nav_toggle"
         [class.dark]="isDarkTheme()"
         id="nav_toggle"
+        aria-label="Open menu"
+        aria-controls="nav_menu"
+        [attr.aria-expanded]="isMenuVisible"
         (click)="toggleMenu(true)"
       >
-        <i class="uil uil-apps"></i>
-      </div>
+        <i class="uil uil-apps" aria-hidden="true"></i>
+      </button>
     </div>
   </nav>
 </header>

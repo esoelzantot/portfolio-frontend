@@ -6,6 +6,14 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ScrollReveal slides elements in from 60px off to the side; clip that
+   overflow so phones never get a sideways scroll. clip (unlike hidden)
+   creates no scroll container, so fixed/sticky positioning is unaffected. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   color: #191627;
   transition: 0.5s ease;

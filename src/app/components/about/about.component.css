@@ -202,8 +202,9 @@
     margin: 1rem 0 0 0;
   }
 
+  /* scales down on narrow phones so long words like "Qualification" fit */
   .section-title-01 {
-    font-size: 3rem;
+    font-size: clamp(2.25rem, 12vw, 3rem);
   }
 
   .section-title-02 {
@@ -227,10 +228,14 @@
     row-gap: 20px;
   }
 
+  /* natural aspect ratio: a fixed height with 100% width stretched the photo */
   .about-img img {
+    display: block;
     width: 100%;
     min-width: 0;
-    height: 250px;
+    height: auto;
+    max-height: 340px;
+    object-fit: contain;
   }
 
   .about-info {

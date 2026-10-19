@@ -1,4 +1,7 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
@@ -11,16 +14,25 @@ export class NavbarComponent {
 
   isMenuVisible = false;
   readonly isDarkTheme = this.themeService.isDark;
-  activeLink = '#home';
 
-  navItems = [
-    { href: '#home', label: 'Home', icon: 'uil uil-estate' },
-    { href: '#about', label: 'About', icon: 'uil uil-user' },
-    { href: '#skills', label: 'Skills', icon: 'uil uil-file-alt' },
-    { href: '#services', label: 'Services', icon: 'uil uil-briefcase-alt' },
-    { href: '#portfolio', label: 'Portfolio', icon: 'uil uil-scenery' },
-    { href: '#contact', label: 'Contact', icon: 'uil uil-message' },
+  readonly navItems = [
+    { path: '/home', label: 'Home', icon: 'uil uil-estate' },
+    { path: '/about', label: 'About', icon: 'uil uil-user' },
+    { path: '/skills', label: 'Skills', icon: 'uil uil-file-alt' },
+    { path: '/services', label: 'Services', icon: 'uil uil-briefcase-alt' },
+    { path: '/portfolio', label: 'Portfolio', icon: 'uil uil-scenery' },
+    { path: '/contact', label: 'Contact', icon: 'uil uil-message' },
   ];
+
+  constructor() {
+    // also covers the browser's back/forward buttons, not just link taps
+    inject(Router)
+      .events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => this.toggleMenu(false));
+  }
 
   toggleMenu(show: boolean) {
     this.isMenuVisible = show;
@@ -28,6 +40,11 @@ export class NavbarComponent {
 
   toggleTheme() {
     this.themeService.toggle();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.toggleMenu(false);
   }
 
   @HostListener('window:scroll', [])

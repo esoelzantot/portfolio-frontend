@@ -305,8 +305,9 @@
 
 /*=======Media query max-width 768px=======*/
 @media screen and (max-width: 768px) {
+  /* scales down on narrow phones so long words like "Qualification" fit */
   .section-title-01 {
-    font-size: 3rem;
+    font-size: clamp(2.25rem, 12vw, 3rem);
   }
 
   .section-title-02 {
