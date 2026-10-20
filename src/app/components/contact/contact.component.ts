@@ -8,7 +8,7 @@ import ScrollReveal from 'scrollreveal';
 
 const EMAILJS_CONFIG = {
   serviceId: 'service_yw7gthw',
-  templateId: 'template_pwgc0ox',
+  templateId: 'template_tlmo40n',
   publicKey: 'ZZ7WvkUmZtRzzn2uh',
 } as const;
 
