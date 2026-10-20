@@ -1,10 +1,16 @@
-import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import { ThemeService } from '../../services/theme.service';
 import { ContactService, IContact } from '../../services/contact.service';
 
 import ScrollReveal from 'scrollreveal';
+
+const EMAILJS_CONFIG = {
+  serviceId: 'service_yw7gthw',
+  templateId: 'template_pwgc0ox',
+  publicKey: 'ZZ7WvkUmZtRzzn2uh',
+} as const;
 
 @Component({
   selector: 'app-contact',
@@ -12,8 +18,18 @@ import ScrollReveal from 'scrollreveal';
   styleUrls: ['./contact.component.css'],
 })
 export class ContactComponent implements OnInit, AfterViewInit {
-  contactForm: FormGroup;
+  private readonly contactService = inject(ContactService);
+  private readonly fb = inject(FormBuilder);
+
   readonly isDarkTheme = inject(ThemeService).isDark;
+  readonly isSending = signal(false);
+
+  readonly contactForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['', Validators.required],
+    message: ['', Validators.required],
+  });
 
   contact: IContact = {
     phone: '',
@@ -21,20 +37,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
     location: '',
   };
 
-  constructor(
-    private contactService: ContactService,
-    private fb: FormBuilder
-  ) {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      message: ['', Validators.required],
-    });
-  }
-
-  ngOnInit() {
-    // Api Call
+  ngOnInit(): void {
     this.contactService.getContactData().subscribe((contactData) => {
       this.contact = contactData;
     });
@@ -44,41 +47,49 @@ export class ContactComponent implements OnInit, AfterViewInit {
     this.scrollAnimation();
   }
 
-  onSubmit() {
-    if (this.contactForm.valid) {
-      const templateParams = {
-        from_name: this.contactForm.get('name')?.value,
-        from_email: this.contactForm.get('email')?.value,
-        subject: this.contactForm.get('subject')?.value,
-        message: this.contactForm.get('message')?.value,
-      };
+  async onSubmit(): Promise<void> {
+    if (this.isSending()) return;
 
-      emailjs
-        .send(
-          'service_yw7gthw',
-          'template_9mu5wfk',
-          templateParams,
-          '0c37HU3NHostoYCdX'
-        )
-        .then(
-          (response) => {
-            console.log('SUCCESS!', response.status, response.text);
-            alert('Email sent successfully!');
-            this.contactForm.reset();
-          },
-          (error) => {
-            console.log('FAILED...', error);
-            alert('Failed to send the email. Please try again.');
-          }
-        );
-    } else {
-      console.log('Form is not valid');
+    if (this.contactForm.invalid) {
+      this.contactForm.markAllAsTouched();
       alert('Please fill in all required fields.');
+      return;
+    }
+
+    const { name, email, subject, message } = this.contactForm.getRawValue();
+
+    this.isSending.set(true);
+    try {
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
+        {
+          from_name: name,
+          from_email: email,
+          subject,
+          message,
+        },
+        { publicKey: EMAILJS_CONFIG.publicKey }
+      );
+
+      console.log('SUCCESS!', response.status, response.text);
+      alert('Email sent successfully!');
+      this.contactForm.reset();
+    } catch (error: unknown) {
+      const err = error as { status?: number; text?: string };
+      console.error('EmailJS failed:', err.status, err.text);
+
+      alert(
+        err.status === 412
+          ? 'Email service is temporarily unavailable. Please try again later.'
+          : 'Failed to send the email. Please try again.'
+      );
+    } finally {
+      this.isSending.set(false);
     }
   }
 
   private scrollAnimation(): void {
-    // Initialize ScrollReveal with default settings
     const sr = ScrollReveal({
       distance: '60px',
       duration: 2000,
@@ -86,7 +97,6 @@ export class ContactComponent implements OnInit, AfterViewInit {
       reset: true,
     });
 
-    // Apply ScrollReveal to specific elements with customized settings
     sr.reveal('.section-title-01, .section-title-02', {
       delay: 300,
       origin: 'left',
@@ -97,6 +107,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       origin: 'left',
       interval: 100,
     });
+
     sr.reveal('.contact-right', {
       delay: 400,
       origin: 'right',
